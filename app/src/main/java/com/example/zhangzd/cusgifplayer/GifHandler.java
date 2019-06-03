@@ -8,30 +8,30 @@ import android.graphics.Bitmap;
  * @CreateDate: 2019-06-03 10:48
  */
 public class GifHandler {
+    //    ndkGif  native  结构体的地址
+//
+//    存放在 java   为了方便传参
+    private long gifAddr;
     static {
         System.loadLibrary("native-lib");
     }
-    public long gifAddr;   //git 的内存地址
     public GifHandler(String path) {
+//        加载  信使  GifFileType
         this.gifAddr = loadPath(path);
     }
 
     public int getWidth() {
         return getWidth(gifAddr);
     }
-
     public int getHeight() {
         return getHeight(gifAddr);
     }
 
-
-    public int updateFrame (Bitmap bitmap) {
+    public int updateFrame(Bitmap bitmap) {
         return updateFrame(gifAddr,bitmap);
     }
-
-
-
-    public native long loadPath(String path);
+    //初始化   调用
+    private native long loadPath(String path);
     public native int getWidth(long ndkGif);
     public native int getHeight(long ndkGif);
     //    隔一段事件 调用一次

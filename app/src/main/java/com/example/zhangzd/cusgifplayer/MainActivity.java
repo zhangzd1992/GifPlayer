@@ -15,11 +15,6 @@ import android.widget.TextView;
 import java.io.File;
 
 public class MainActivity extends AppCompatActivity {
-
-    // Used to load the 'native-lib' library on application startup.
-    static {
-        System.loadLibrary("native-lib");
-    }
     GifHandler gifHandler;
     Bitmap bitmap;
     ImageView ivGIf;
@@ -42,7 +37,6 @@ public class MainActivity extends AppCompatActivity {
     Handler handler = new Handler(){
         @Override
         public void handleMessage(Message msg) {
-            super.handleMessage(msg);
             int updateFrame = gifHandler.updateFrame(bitmap);
             handler.sendEmptyMessageAtTime(1,updateFrame);
             ivGIf.setImageBitmap(bitmap);
@@ -55,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
     private void loadGif() {
         File file = new File(Environment.getExternalStorageDirectory(), "demo.gif");
         gifHandler = new GifHandler(file.getAbsolutePath());
-        bitmap = Bitmap.createBitmap(gifHandler.getWidth(), gifHandler.getHeight(), Bitmap.Config.RGB_565);
+        bitmap = Bitmap.createBitmap(gifHandler.getWidth(), gifHandler.getHeight(), Bitmap.Config.ARGB_8888);
         int nextFrame = gifHandler.updateFrame(bitmap);
         handler.sendEmptyMessageAtTime(1,nextFrame);
 
